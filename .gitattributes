@@ -1,0 +1,8 @@
+* text eol=lf
+
+*.md text
+*.js text
+*.json text
+
+*.png binary
+*.gif binary
