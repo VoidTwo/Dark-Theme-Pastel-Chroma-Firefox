@@ -1,4 +1,6 @@
-function initialSetup () {
+'use strict'
+
+const [themeValues, last] = (() => {
   let pastelColors = [
     '#FF7F7F',
     '#FF837E',
@@ -141,22 +143,18 @@ function initialSetup () {
 
   pastelColors = null
   const last = themeValues.length - 1
-  return [themeValues, last]
-}
+  return [Object.freeze(themeValues), Object.freeze(last)]
+})()
 
-function setTheme () {
+let index = 0
+
+const setTheme = () => {
   browser.theme.update(themeValues[index])
   index === last ? index = 0 : index++
   return undefined
 }
 
-const [themeValues, last] = initialSetup()
-Object.freeze(themeValues)
-Object.freeze(last)
-
-let index = 0
-
 setTheme()
 
 browser.alarms.onAlarm.addListener(setTheme)
-browser.alarms.create('setTheme', { periodInMinutes: 0.0042 })
+browser.alarms.create('setTheme', Object.freeze({ periodInMinutes: 0.0042 }))
