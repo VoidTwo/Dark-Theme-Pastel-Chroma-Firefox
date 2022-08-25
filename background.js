@@ -1,5 +1,5 @@
 function initialSetup () {
-  let hexColors = [
+  let pastelColors = [
     '#FF7F7F',
     '#FF837E',
     '#FF877D',
@@ -85,12 +85,12 @@ function initialSetup () {
     '#FF8395',
     '#FF818A']
 
-  const chromaColors = Array(hexColors.length).fill(null)
+  const themeValues = Array(pastelColors.length).fill(null)
 
-  for (let i = hexColors.length - 1; i > -1; i--) {
-    let color = hexColors.pop()
+  for (let i = themeValues.length - 1; i > -1; i--) {
+    let color = pastelColors.pop()
 
-    chromaColors[i] = {
+    themeValues[i] = {
       colors:
         {
           bookmark_text: color,
@@ -129,30 +129,34 @@ function initialSetup () {
           toolbar_field_text_focus: color,
           toolbar_top_separator: color,
           toolbar_vertical_separator: color
+        },
+      properties:
+        {
+          content_color_scheme: 'dark'
         }
     }
 
     color = null
   }
 
-  hexColors = null
-  const last = chromaColors.length - 1
-  return [chromaColors, last]
+  pastelColors = null
+  const last = themeValues.length - 1
+  return [themeValues, last]
 }
 
-function setColor () {
-  browser.theme.update(chromaColors[index])
+function setTheme () {
+  browser.theme.update(themeValues[index])
   index === last ? index = 0 : index++
   return undefined
 }
 
-const [chromaColors, last] = initialSetup()
-Object.freeze(chromaColors)
+const [themeValues, last] = initialSetup()
+Object.freeze(themeValues)
 Object.freeze(last)
 
 let index = 0
 
-setColor()
+setTheme()
 
-browser.alarms.onAlarm.addListener(setColor)
-browser.alarms.create('setColor', { periodInMinutes: 0.0042 })
+browser.alarms.onAlarm.addListener(setTheme)
+browser.alarms.create('setTheme', { periodInMinutes: 0.0042 })
